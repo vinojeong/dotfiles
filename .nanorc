@@ -1,0 +1,23 @@
+set softwrap
+set linenumbers
+set tabsize 4
+set atblanks
+set zap
+# set minibar
+# set constantshow
+set autoindent
+set indicator
+set mouse
+#set zero
+set smarthome
+set afterends
+set wordchars "_"
+
+bind M-f nextword all
+bind M-b prevword all
+bind ^] chopwordleft all
+
+set brackets ""')>]}"
+set matchbrackets "(<[{)>]}"
+
+# include "/usr/local/Cellar/nano/*/share/nano/*.nanorc"
