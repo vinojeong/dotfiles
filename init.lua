@@ -12,28 +12,38 @@ vim.opt.mat = 1
 vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true })
 vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true })
 
--- vim.cmd 'colorscheme wildcharm'
--- slate, quiet, ron, shine
--- vim.cmd 'colorscheme wildcharm'
-
--- vim.o.termguicolors = true
--- some themes I downloaded:
--- gruvbox, tender, apprentice, wombat256mod, spacecamp, termschool, orbital, fahrenheit, github, deus, happy-hacking, nord, dogrun, ansi, seoul256, challenger_deep, lettuce
+vim.o.termguicolors = true
 
 -- check for theme, if it doesn't exist, use a built-in theme
 local ok, _ = pcall(vim.cmd, "colorscheme challenger_deep")
 if not ok then
-  vim.cmd("colorscheme wildcharm")
+  vim.cmd("colorscheme sorbet")
 end
 
 -- override
-vim.cmd("colorscheme termschool")
+-- vim.cmd("colorscheme jellybeans")
+
+-- return to last edit position
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local ft = vim.bo.filetype
+	-- exclude commit messages
+    if ft == "gitcommit" then return end
+
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+
+    if mark[1] > 1 and mark[1] <= lcount then
+      vim.cmd('normal! g`"')
+    end
+  end,
+})
 
 -- statusline
 
-vim.opt.statusline = "%!v:lua.MyStatusline()"
+vim.opt.statusline = "%!v:lua.statusline()"
 
-function MyStatusline()
+function statusline()
 	-- local mode = vim.fn.mode()
 
 	-- path
@@ -54,8 +64,9 @@ function MyStatusline()
   	local hl_filename = "StatusLineFilename"
   	local hl_info = "StatusLineInfo"
 
-	local fileformat = vim.bo.fileformat  -- unix, dos, mac
+	local fileformat = vim.bo.fileformat  -- unix/dos/mac
 	local encoding = vim.o.fileencoding ~= '' and vim.o.fileencoding or vim.o.encoding
+
 	local filesize = vim.fn.getfsize(vim.fn.expand("%:p"))
 	if filesize < 0 then
 		filesize = ""

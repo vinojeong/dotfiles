@@ -1,0 +1,46 @@
+live_config_reload = true
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+# decorations = "buttonless"
+dynamic_padding = false
+opacity = 0.9
+blur = true
+
+[window.padding]
+x = 15
+y = 15
+
+[font]
+size = 14.0
+
+offset = { x = 0, y = 1 }
+glyph_offset = { x = 0, y = 0 }
+
+[font.bold]
+family = "JetBrains Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrains Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrains Mono"
+style = "Italic"
+
+[font.normal]
+family = "JetBrains Mono"
+style = "Regular"
+
+[keyboard]
+bindings = [
+   { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
+]
+
+[[hints.enabled]]
+regex = "[^ ]+\\.rs:\\d+:\\d+"
+command = { program = "code", args = [ "--goto" ] }
+mouse = { enabled = true }
